@@ -36,7 +36,7 @@ public class TxHandler {
     		// check for (2): the signatures on each input of {@code tx} must be valid
     		if(approvedUTXO.contains(currentUTXO) ||
     				!trustedPool.contains(currentUTXO) ||
-    				Crypto.verifySignature(trustedPool.getTxOutput(currentUTXO).address,
+    				!Crypto.verifySignature(trustedPool.getTxOutput(currentUTXO).address,
     						tx.getRawDataToSign(index),
     	    				transactionIn.signature))
     		{
