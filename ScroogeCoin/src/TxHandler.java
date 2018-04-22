@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class TxHandler {
 
@@ -27,7 +28,7 @@ public class TxHandler {
     	double sumInput = 0.0;
     	double sumOutput = 0.0;
     	int index = 0;
-    	ArrayList<UTXO> approvedUTXO = new ArrayList<UTXO>();
+    	HashSet<UTXO> approvedUTXO = new HashSet<UTXO>();
     	for(Transaction.Input transactionIn : tx.getInputs())
     	{
     		UTXO currentUTXO = new UTXO(transactionIn.prevTxHash, transactionIn.outputIndex);
@@ -43,6 +44,7 @@ public class TxHandler {
     			return false;
     		}
     		sumInput += trustedPool.getTxOutput(currentUTXO).value;
+    		approvedUTXO.add(currentUTXO);
     		++index;
     	}
        	for(Transaction.Output transactionOut : tx.getOutputs())
