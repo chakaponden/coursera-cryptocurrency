@@ -93,7 +93,19 @@ public class TxHandler {
     	{
     		return false;
     	}
-    	// TODO: update UTXO pool
+    	// update UTXO pool: remove old UTXO & add new UTXO
+    	// remove old UTXO from trusted UTXO pool
+    	for(Transaction.Input transactionIn : tx.getInputs())
+    	{
+    		UTXO currentUTXO = new UTXO(transactionIn.prevTxHash, transactionIn.outputIndex);
+    		trustedPool.removeUTXO(currentUTXO);
+    	}
+    	// add new UTXO to trusted UTXO pool
+		for(int index = 0; index < tx.getOutputs().size(); ++index)
+    	{
+    		UTXO currentUTXO = new UTXO(tx.getHash(), index);
+    		trustedPool.addUTXO(currentUTXO, tx.getOutput(index));
+    	}
     	return true;
     }
 
